@@ -9,6 +9,7 @@ The analysis uses survey data from rural Texas residents, collected through:
 - NUMERIC_HealthIssuesRuralTX_Net.csv
 
 ## Repository Structure
+- `WIC_clustering_data`: Data files and results for the analysis
 - `wic_data_engineering.ipynb`: Initial data preprocessing, feature engineering, and dataset preparation
 - `clustering_analysis.ipynb`: Implementation of K-means clustering with different feature sets, evaluation, and interpretation
 
