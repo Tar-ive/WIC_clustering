@@ -1,0 +1,5 @@
+Approach,Optimal Clusters,Silhouette Score,Calinski-Harabasz Index,Variance Explained (pct_times_get_Care),Variance Explained (mean_satisfaction),Variance Explained (sought_care_recently),Variance Explained (incorrect_care_binary)
+Individual,2,0.2296,15.799034766826864,-0.223245,1.851248,3.545915,-0.508783
+Composite,6,0.1969,10.39505402804575,3.431188,9.551261,5.629649,-1.283216
+PCA,6,0.2014,10.804676126908188,2.46275,8.157322,4.405034,-1.36757
+Hierarchical,Hierarchical,0.1969,,13.360941,6.461543,8.098084,2.455332

@@ -1,0 +1,6 @@
+Cluster,Label,Size,Health_Issues,Geographic_Access,Social_Vulnerability,Care_Access_Rate,Satisfaction,Key_Characteristics
+0,Good Geographic Access But Economic Challenges,29,Low (0-1),Excellent,Moderate,90.8%,3.2/5,Economic challenges but good facilities access
+1,Geographically Isolated With Limited Options,30,Low (0-1),Very Poor,Moderate,84.3%,3.2/5,Geographic isolation is primary barrier
+2,High Health Needs With Multiple Barriers,29,High (2-4),Moderate,High,72.4%,2.7/5,Multiple health issues and social barriers
+3,Privileged With Few Barriers,48,Low (0-1),Excellent,Very Low,91.7%,3.3/5,"Few barriers, good outcomes"
+4,High Social Vulnerability Despite Good Geographic Access,23,Moderate (1-2),Excellent,Very High,84.6%,3.2/5,High social vulnerability offset by good geographic access
