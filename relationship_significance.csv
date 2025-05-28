@@ -1,0 +1,16 @@
+Relationship,Test,Statistic,p_value,Significant
+Barriers → Care-Seeking,Point-biserial,-0.19208421383870045,0.015282658280985573,✓
+Barriers → Satisfaction,Point-biserial,-0.24427848714781258,0.001915179012058654,✓
+Barriers → Success Getting Care,Point-biserial,-0.2274087308442243,0.003942098690696724,✓
+Healthcare Needs → Care-Seeking,Point-biserial,0.1363861813974952,0.08648933973504622,✗
+Healthcare Needs → Satisfaction,Point-biserial,-0.2099386813792321,0.007907238607351097,✓
+Age → Care-Seeking,Point-biserial,0.11479974349541333,0.1496083123955211,✗
+Age → Satisfaction,Point-biserial,0.0031389237616322035,0.9686766230058032,✗
+Education → Care-Seeking,Point-biserial,0.08442845353022996,0.2900131287947198,✗
+Education → Success Getting Care,Point-biserial,-0.1174070081043071,0.14051731484654192,✗
+Education → Satisfaction,Point-biserial,0.014283950217370667,0.8581719054555085,✗
+Age x Healthcare Needs → Care-Seeking,Regression (interaction),0.247527910685806,0.2506236541357196,✗
+Education x Barriers → Care-Seeking,Regression (interaction),0.08856143856143886,0.6917931602706373,✗
+Cluster → Care-Seeking,ANOVA,2.131200612012004,0.053970554586476004,✗
+Cluster → Success Getting Care,ANOVA,0.8700877351968548,0.5188668447019413,✗
+Cluster → Satisfaction,ANOVA,1.8285448552188575,0.098342668831281,✗
