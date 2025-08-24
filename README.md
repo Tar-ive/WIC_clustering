@@ -1,77 +1,161 @@
-# Rural Texas Healthcare Access Analysis
+# Rural Women's Healthcare Access Clustering Analysis
 
-## Project Overview
-This repository contains code and analysis for identifying and characterizing population segments with distinct healthcare access patterns in rural Texas. Using clustering techniques, we identify meaningful groups based on health needs, social determinants of health (SDOH), and healthcare access factors.
+## Research Overview
 
-## Data Sources
-The analysis uses survey data from rural Texas residents, collected through:
-- RTPH_Survey_stand_TLL_4.1.25.csv
-- NUMERIC_HealthIssuesRuralTX_Net.csv
+This repository contains the implementation and analysis code for the research paper **"Exploring rural women's healthcare access through social vulnerability profiles: A cluster analysis of regional survey data in Texas"**. The study uses cluster analysis to identify distinct vulnerability profiles among rural women in East Texas based on health needs, socioeconomic determinants, and geographic access to care.
 
-## Repository Structure
-- `wic_data_engineering.ipynb`: Initial data preprocessing, feature engineering, and dataset preparation
-- `clustering_analysis.ipynb`: Implementation of K-means clustering with different feature sets, evaluation, and interpretation
+### Key Research Findings
 
-## Methodology
+The study identified **7 distinct vulnerability profiles** among 159 rural women surveyed at WIC service centers in Texas' Public Health Region 4/5N. These profiles revealed how overlapping structural and contextual vulnerability indicators, rather than demographic characteristics alone, shape healthcare access for rural women.
 
-### Data Engineering and Preparation
+## Dataset
 
-#### Feature Engineering
-- **Age Categorization**: Dividing respondents into age groups (18-44, 45-64, 65+)
-- **Health Burden Quantification**: Creating `health_issues_count` by summing indicators for poor physical health, poor mental health, poor quality of life, and chronic conditions
-- **SDOH Vulnerability Score**: Composite measure based on food, housing, transportation, and income insecurity
-- **Healthcare Proximity Measures**: 
-  - `facilities_within_30min`: Count of healthcare facilities within 30 minutes
-  - `facilities_within_10miles`: Count of healthcare facilities within 10 miles
-  - Binary indicators for specific facility types nearby (primary care, urgent care, ER)
-- **Incorrect Care Indicator**: Flag for instances where respondents reported using inappropriate level of care
+The analysis uses survey data from:
+- **159 adult women** identifying as female
+- **22 rural and medically underserved counties** in East Texas
+- Data collected at WIC service centers
+- Variables covering demographics, health status, socioeconomic determinants, geographic access, and healthcare outcomes
 
-#### Data Preprocessing
-- Selection of relevant variables for clustering analysis
-- Missing data handling with context-appropriate imputation
-- Standardization of continuous variables using StandardScaler
-- One-hot encoding of categorical variables
+## Notebooks Description
 
-### Clustering Analysis
+### 1. `wic_data_engineering.ipynb`
+**Purpose**: Data preparation and variable engineering
 
-#### Feature Set Approaches
-1. **Individual Variables**: Uses discrete individual features related to demographics, health, social determinants, and access
-2. **Composite Variables**: Utilizes composite scores (health_issues_count, sdoh_vulnerability_score) alongside individual features
-3. **Balanced Approach**: Integration of both individual indicators and composite measures
+This notebook performs the initial data processing and feature engineering required for the clustering analysis. It:
+- Maps variable names from the raw survey data to match analysis requirements
+- Creates intermediate variables needed for composite measures:
+  - Health issues count (combining poor physical/mental health, quality of life, chronic conditions)
+  - Social determinants of health (SDOH) vulnerability score
+  - Facilities within 30 minutes measure
+- Generates binary indicators for high health needs, high social vulnerability, and low geographic access
+- Creates the focused dataset with three key dimensions as described in the paper
 
-#### Optimal Cluster Determination
-- Silhouette score analysis to identify optimal number of clusters for each feature set
-- Automated process for cluster number optimization using `find_optimal_clusters` function
+**Key outputs**:
+- `cluster_data_.csv`: Prepared dataset with all engineered features
+- `focused_dataset.csv`: Simplified dataset with binary composite variables
 
-#### Cluster Evaluation
-- Inter-approach agreement calculation
-- Variance explained in key outcome variables by cluster assignment
-- Comparison across clustering approaches to identify the most effective one
+### 2. `wic_clustering_analaysis.ipynb`
+**Purpose**: Main clustering analysis implementation
 
-#### Detailed Profiling
-- Statistical profiling of each cluster
-- Identification of representative and extreme cases
-- Visualizations of cluster characteristics through heatmaps and bar plots
+This comprehensive notebook implements the full clustering methodology described in the paper. It includes:
+- **Multiple clustering approaches**:
+  - Individual variables approach (avoiding double-counting)
+  - Composite variables approach (using aggregated measures)
+  - Balanced approach (combining both)
+  - PCA-based dimensionality reduction
+  - Hierarchical clustering
+- **Clustering algorithms tested**:
+  - K-means (primary method, achieving silhouette score of 0.93)
+  - Hierarchical clustering (Ward, Complete, Average linkage)
+  - Spectral clustering
+  - DBSCAN
+  - Gaussian Mixture Models
+- **Validation metrics**: Silhouette score, Davies-Bouldin Index, Calinski-Harabasz Index
+- **Detailed profiling** of each cluster including representative cases
+- **Statistical validation** of cluster differences on outcome variables
 
-## Key Findings
-The analysis identifies distinct population segments with unique patterns of healthcare needs, barriers, and utilization. These segments can be targeted for specific interventions to improve healthcare access and outcomes in rural Texas.
+The notebook reproduces the paper's finding of 7 optimal clusters with excellent separation (silhouette score = 0.93).
 
-## Usage
-1. Run `wic_data_engineering.ipynb` to preprocess the data and generate the required datasets
-2. Execute `clustering_analysis.ipynb` to perform clustering, evaluate results, and generate insights
+### 3. `3_factor .ipynb`
+**Purpose**: Three-factor clustering analysis following validated methodology
 
-## Dependencies
-- Python 3.11
-- pandas
-- numpy
-- scikit-learn
-- matplotlib
-- seaborn
+This notebook implements a focused three-factor clustering approach based on the paper's core dimensions:
+1. **High health needs** (chronic conditions or multiple health issues)
+2. **High social vulnerability** (2+ socioeconomic barriers)
+3. **Low geographic access** (≤2 healthcare facilities within 30 minutes)
 
-## Future Work
-- Development of targeted intervention strategies for each identified segment
-- Validation of clusters with additional data sources
-- Geographic analysis of cluster distribution across rural Texas
+The analysis:
+- Tests multiple clustering algorithms with standardized evaluation
+- Validates the 7-cluster solution as optimal
+- Generates comprehensive validation metrics
+- Creates visualization of cluster profiles
+- Follows the exact methodology described in Lanni et al. (2024)
 
-## Contact
-For questions about this project, please contact [adhsaksham27@gmail.com].
+### 4. `wic_plots.ipynb`
+**Purpose**: Visualization and figure generation
+
+This notebook creates publication-quality visualizations including:
+- **Demographic distribution plots** across clusters (Figure 4 from the paper)
+- Area charts showing the distribution of key characteristics:
+  - Person of Color percentage
+  - College education rates
+  - Employment status
+  - Insurance coverage
+  - Difficulty affording healthcare
+- Individual and combined faceted plots using plotnine (ggplot2-style plotting)
+- Cluster profile heatmaps
+
+**Note**: For chart generation, run `3_factor.ipynb` first to generate the necessary cluster data and visualizations.
+
+### 5. `wic_stage4.ipynb`
+**Purpose**: Advanced analysis and statistical validation
+
+This notebook performs deeper statistical analysis including:
+- **DBSCAN clustering** with optimization for 6-7 clusters
+- **Significance testing** of relationships between variables
+- **Cross-cutting insights** analysis showing:
+  - How barriers drive care avoidance and dissatisfaction
+  - The "high needs paradox" (increased care-seeking but lower satisfaction)
+  - Importance of outliers/noise points
+  - Education and age interactions
+- **Statistical validation** using ANOVA, Kruskal-Wallis tests, and regression models
+- Generation of comprehensive cluster profiles with outcome analysis
+
+## Key Files Generated
+
+### Data Files
+- `cluster_data_.csv`: Full dataset with all engineered features
+- `focused_dataset.csv`: Simplified dataset for three-factor analysis
+- `final_clustered_data.csv`: Dataset with cluster assignments
+- `3factors-2.csv`: Three-factor clustering results
+
+### Visualization Files
+- `3d_plot_v2.png`, `3d_plot_v3.png`: 3D scatter plots of clusters
+- `3d_scatterplot.png`: Three-dimensional visualization of vulnerability profiles
+- `clustering_comparison_grid.png`: Comparison of different clustering methods
+
+## Methodology Highlights
+
+The analysis follows the paper's methodology:
+
+1. **Dimensionality Reduction**: Converting multiple indicators into three binary composite variables
+2. **Algorithm Selection**: K-means clustering selected after comparing multiple methods
+3. **Validation**: Using silhouette scores, Davies-Bouldin Index, and Calinski-Harabasz Index
+4. **Interpretation**: Detailed profiling of each cluster's characteristics and outcomes
+
+## Results Summary
+
+The seven identified clusters represent:
+- **Cluster 0** (23.9%): Reference group with no vulnerabilities
+- **Cluster 1** (13.8%): High vulnerability (all three indicators present)
+- **Clusters 2, 4, 5**: Low vulnerability profiles (one indicator each)
+- **Clusters 3, 6**: Moderate vulnerability profiles (two indicators)
+
+These clusters showed significant differences in healthcare access outcomes, with the high vulnerability cluster (Cluster 1) reporting only 73.5% success rate in getting needed care compared to 91.6% for the reference group.
+
+## Requirements
+
+```python
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+plotnine
+scipy
+statsmodels
+pingouin  # For advanced statistical testing
+```
+
+## Citation
+
+If using this code or methodology, please cite the original paper:
+> Exploring rural women's healthcare access through social vulnerability profiles: A cluster analysis of regional survey data in Texas
+
+## Notes
+
+- The notebooks should be run in sequence starting with `wic_data_engineering.ipynb`
+- **For chart generation**: Run `3_factor.ipynb` first to generate cluster data, then `wic_plots.ipynb` for visualizations
+- All data files are included in the `/data` directory
+- Visualizations are saved in the `/visualizations` directory
+- The analysis was conducted on 159 survey responses from rural Texas women
